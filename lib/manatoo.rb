@@ -5,6 +5,7 @@ require 'manatoo/task'
 
 module Manatoo
   @api_base = 'https://manatoo.io/api'
+  @api_key = nil
 
   class ApiKeyError < StandardError
     def initialize
