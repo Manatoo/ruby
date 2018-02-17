@@ -4,9 +4,8 @@ require 'faraday'
 require 'manatoo/task'
 
 module Manatoo
-  # @api_base = 'https://manatoo.io/api'
-  @api_base = 'http://localhost:3000/api'
-  # @api_key = 'nHmMY4gSh8jutU6Cb5w-pQgZGX7twg'
+  @api_base = 'https://manatoo.io/api'
+
   class ApiKeyError < StandardError
     def initialize
       super('Missing Manatoo API KEY')
