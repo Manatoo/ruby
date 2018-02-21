@@ -29,9 +29,11 @@ module Manatoo
     attr_reader :attributes, :last_json_response
     delegate TASK_KEYS => :attributes
 
-    def handle_json(json)
-      @last_json_response = json
-      task_attrs = json['data'].to_snake_keys
+    def handle_snake_cased_json(snake_cased_json)
+      # if a user wanted the last_response_json, I assume they would want it
+      # in a snake_cased ruby usable fashion
+      @last_json_response = snake_cased_json
+      task_attrs = @last_json_response['data']
       set_attributes_from_hash(task_attrs)
       self
     end
@@ -43,30 +45,37 @@ module Manatoo
     end
 
     # list_id, title REQUIRED
-    def self.create(list_id:, title:, **attrs)
+    def self.create(attrs, return_task=false)
+      raise ArgumentError.new('Task attributes must be passed in as a Hash') unless attrs.is_a?(Hash)
+      raise ArgumentError.new(
+        'Both list_id and title must be passed in and not blank'
+      ) if attrs[:list_id].nil? or attrs[:list_id].blank? or attrs[:title].nil? or attrs[:title].blank?
+
       url = "tasks"
       resp = Manatoo.post(url, attrs.merge({
           title: title,
           list_id: list_id,
         }))
-      json = JSON.parse(resp.body)
-      attrs = json['data'].to_snake_keys
-      Task.new(attrs, json)
+      snake_cased_json = JSON.parse(resp.body).to_snake_keys
+      attrs = snake_cased_json['data']
+      return Task.new(attrs, snake_cased_json) if return_task
+      return snake_cased_json
     end
 
     # task_id REQUIRED
-    def self.find(task_id)
+    def self.find(task_id, return_task=false)
       url = "tasks/#{task_id}"
       resp = Manatoo.get(url)
-      json = JSON.parse(resp.body)
-      attrs = json['data'].to_snake_keys
-      Task.new(attrs, json)
+      snake_cased_json = JSON.parse(resp.body).to_snake_keys
+      attrs = snake_cased_json['data']
+      return Task.new(attrs, snake_cased_json) if return_task
+      return snake_cased_json
     end
 
-    def initialize(data, json)
+    def initialize(data, snake_cased_json)
       @attributes = ATTRIBUTES_STRUCT.new
       set_attributes_from_hash(data)
-      @last_json_response = json
+      @last_json_response = snake_cased_json
       self
     end
 
@@ -74,12 +83,12 @@ module Manatoo
     def self.update(task_id, attrs)
       url = "tasks/#{task_id}"
       resp = Manatoo.put(url, attrs)
-      JSON.parse(resp.body)
+      JSON.parse(resp.body).to_snake_keys
     end
 
     def update(attrs)
-      json = Task.update(id, attrs)
-      handle_json(json)
+      snake_cased_json = Task.update(id, attrs)
+      handle_snake_cased_json(snake_cased_json)
     end
 
     # task_id, status REQUIRED
@@ -88,12 +97,12 @@ module Manatoo
       resp = Manatoo.put(url, {
         status: status
       })
-      JSON.parse(resp.body)
+      JSON.parse(resp.body).to_snake_keys
     end
 
     def update_status(status)
-      json = Task.update_status(id, status)
-      handle_json(json)
+      snake_cased_json = Task.update_status(id, status)
+      handle_snake_cased_json(snake_cased_json)
     end
 
     # labels should not be empty, should be array
@@ -102,12 +111,12 @@ module Manatoo
       resp = Manatoo.post(url, {
         labels: labels
       })
-      JSON.parse(resp.body)
+      JSON.parse(resp.body).to_snake_keys
     end
 
     def add_labels(labels)
-      json = Task.add_labels(id, labels)
-      handle_json(json)
+      snake_cased_json = Task.add_labels(id, labels)
+      handle_snake_cased_json(snake_cased_json)
     end
 
     # weight REQUIRED, should be integer
@@ -116,12 +125,12 @@ module Manatoo
       resp = Manatoo.post(url, {
         weight: weight
       })
-      JSON.parse(resp.body)
+      JSON.parse(resp.body).to_snake_keys
     end
 
     def add_weight(weight)
-      json = Task.add_weight(id, weight)
-      handle_json(json)
+      snake_cased_json = Task.add_weight(id, weight)
+      handle_snake_cased_json(snake_cased_json)
     end
 
     # users should not be empty, should be array
@@ -130,12 +139,12 @@ module Manatoo
       resp = Manatoo.post(url, {
         users: users
       })
-      JSON.parse(resp.body)
+      JSON.parse(resp.body).to_snake_keys
     end
 
     def add_users(users)
-      json = Task.add_users(id, weight)
-      handle_json(json)
+      snake_cased_json = Task.add_users(id, weight)
+      handle_snake_cased_json(snake_cased_json)
     end
 
     # users should not be empty, should be array
@@ -144,12 +153,12 @@ module Manatoo
       resp = Manatoo.delete(url, {
         users: users
       })
-      JSON.parse(resp.body)
+      JSON.parse(resp.body).to_snake_keys
     end
 
     def remove_members(users)
-      json = Task.remove_users(id, weight)
-      handle_json(json)
+      snake_cased_json = Task.remove_users(id, weight)
+      handle_snake_cased_json(snake_cased_json)
     end
   end
 end
