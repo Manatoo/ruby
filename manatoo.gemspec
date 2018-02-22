@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.summary     = "Manatoo api ruby bindings"
   s.description = "Manatoo is an api first todo list that allows your products to tell you what to do"
   s.authors     = ["Derek Zhou"]
-  s.email       = 'derek@manatoo.io'
+  s.email       = 'developer@manatoo.io'
   s.files       = ['lib/manatoo.rb', 'lib/manatoo/task.rb']
   s.homepage    =
     'http://rubygems.org/gems/manatoo'
