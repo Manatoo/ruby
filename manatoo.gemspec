@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'manatoo'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.required_ruby_version = ">= 2.0.0"
   s.date        = '2018-02-16'
   s.summary     = "Manatoo api ruby bindings"
