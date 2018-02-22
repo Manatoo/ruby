@@ -47,9 +47,12 @@ module Manatoo
     # list_id, title REQUIRED
     def self.create(attrs, return_task=false)
       raise ArgumentError.new('Task attributes must be passed in as a Hash') unless attrs.is_a?(Hash)
+
+      list_id = attrs[:list_id]
+      title = attrs[:title]
       raise ArgumentError.new(
         'Both list_id and title must be passed in and not blank'
-      ) if attrs[:list_id].nil? or attrs[:list_id].blank? or attrs[:title].nil? or attrs[:title].blank?
+      ) if list_id.nil? or list_id.empty? or title.nil? or title.empty?
 
       url = "tasks"
       resp = Manatoo.post(url, attrs.merge({

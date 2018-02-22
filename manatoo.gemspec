@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.license       = 'MIT'
   s.add_dependency("faraday", "~> 0.10")
   s.add_dependency("plissken", "~> 1.0")
+  s.add_development_dependency("rspec")
 end
