@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = 'developer@manatoo.io'
   s.files       = ['lib/manatoo.rb', 'lib/manatoo/task.rb']
   s.homepage    =
-    'http://rubygems.org/gems/manatoo'
+    'https://github.com/Manatoo/ruby'
   s.license       = 'MIT'
   s.add_dependency("faraday", "~> 0.10")
   s.add_dependency("plissken", "~> 1.0")
