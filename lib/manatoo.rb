@@ -1,6 +1,7 @@
 require 'base64'
 require 'faraday'
 
+require 'manatoo/event'
 require 'manatoo/task'
 
 module Manatoo

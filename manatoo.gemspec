@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.name        = 'manatoo'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.required_ruby_version = ">= 2.0.0"
-  s.date        = '2018-02-16'
+  s.date        = '2018-03-07'
   s.summary     = "Manatoo api ruby bindings"
-  s.description = "Manatoo is an api first todo list that allows your products to tell you what to do"
+  s.description = "Manatoo is an api first todo list that allows you to automate your task management"
   s.authors     = ["Derek Zhou"]
   s.email       = 'developer@manatoo.io'
   s.files       = ['lib/manatoo.rb', 'lib/manatoo/task.rb']
